@@ -25,6 +25,7 @@ jobs:
         pip install git+https://github.com/OpenPecha/Automatic-View-Updater.git@push-views
     - name : Run update_view
       run : |
+        source .env/bin/activate
         echo ${{ github.event.issue.body }}
         echo $TOKEN
         python3 ./.github/scripts/update_view.py ${{ github.event.issue.body }} $TOKEN
