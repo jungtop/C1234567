@@ -1,3 +1,4 @@
 item_views_map:
-  I3D4F1804:
-    - plaintext
+  plaintext: 
+    I3D4F1804:
+      - I3D4F1804_I3CN3916.txt
