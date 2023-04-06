@@ -68,7 +68,7 @@ def get_serializer(item_id):
     for view,body in item_views_map.items():
         item_ids = body.keys()
         if item_id in item_ids:
-            obj = view()
+            obj = globals()[view]
             return obj.serializer
         
 
