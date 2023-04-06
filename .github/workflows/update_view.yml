@@ -32,4 +32,4 @@ jobs:
         source .env/bin/activate
         echo ${{ github.event.issue.body }}
         echo ${{ secrets.mytoken }}
-        python3 ./.github/scripts/generate_view.py
+        python3 ./.github/scripts/update_view.py ${{ github.event.issue.body }} ${{ secrets.mytoken }}

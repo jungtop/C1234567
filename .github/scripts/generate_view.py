@@ -10,6 +10,7 @@ from collection.items.alignment import Alignment
 from collection.items.work import Work
 from collection.views.plain_text import PlainTextView
 from enum import Enum
+from collection.views.view import View
 import os
 
 
@@ -19,10 +20,6 @@ class ItemEnum():
     work = Work
     pecha_fragment = PechaFragment
 
-view_mapping = {
-    "plaintext": "PlainTextView",
-    "hfml": "HFMLView"
-}
 
 OPENPECHA_DATA_PREFIX_URL = "https://github.com/OpenPecha-Data"
 
@@ -61,25 +58,15 @@ def get_item_cls(item_id):
 
 
 def get_collection_meta(collection_id):
-    meta_path = Path(f"{collection_id}.opc/meta.yml")
-    meta = load_yaml(meta_path)
+    #meta_path = Path(f"{collection_id}.opc/meta.yml")
+    #meta = load_yaml(meta_path)
+    meta = {
+        "item_views_map":{"plaintext":{"I3D4F1804":["I3D4F1804_I3CN3916.txt"]}}
+    }
     return meta
-
-def get_serializer(item_id):
-    repo_name = os.getenv("REPO_NAME")
-    #meta = get_collection_meta(repo_name)
-    meta = get_collection_meta(repo_name)
-    item_views_map = meta["item_views_map"]
-    for view,body in item_views_map.items():
-        item_ids = body.keys()
-        if item_id in item_ids:
-            view_name = view_mapping[view]
-            view_class = globals()[view_name]
-            view_obj = view_class()
-            return view_obj.serializer
         
 
-def generate_view(op_item_id: str,output_dir: Path = None):
+def generate_view(op_item_id: str,view:View,output_dir: Path = None):
     Path("./data").mkdir(parents=True,exist_ok=True)
     if output_dir is None:
         output_dir = BASE_PATH
@@ -88,9 +75,10 @@ def generate_view(op_item_id: str,output_dir: Path = None):
     item_attr = get_item_attr(meta, op_item_path)
     item = get_item_cls(op_item_id)
     item_obj = item(**item_attr)
+    serializer = view.serializer
+    views_path = serializer().serialize(item=item_obj,output_dir=Path("./data"))
 
-    serializer = get_serializer(op_item_id)
-    serializer().serialize(item=item_obj,output_dir=Path("./data"))
+    return views_path
 
 if __name__ == "__main__":
-    generate_view("I3D4F1804",Path("./data"))
+    generate_view("I3D4F1804",PlainTextView(),Path("./data"))
