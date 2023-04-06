@@ -73,6 +73,7 @@ def get_serializer(item_id):
         
 
 def generate_view(op_item_id: str,output_dir: Path = None):
+    Path("./data").mkdir(parents=True,exist_ok=True)
     if output_dir is None:
         output_dir = BASE_PATH
     op_item_path = get_item(op_item_id)
@@ -81,8 +82,7 @@ def generate_view(op_item_id: str,output_dir: Path = None):
     item = get_item_cls(op_item_id)
     item_obj = item(**item_attr)
 
-    #serializer = get_serializer(op_item_id)
-    serializer = PlainTextView()
+    serializer = get_serializer(op_item_id)
     serializer.serialize(item=item_obj,output_dir=Path("./data"))
 
 if __name__ == "__main__":
