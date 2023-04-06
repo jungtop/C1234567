@@ -8,6 +8,7 @@ from openpecha.utils import load_yaml
 from collection.items.pecha import Pecha,PechaFragment
 from collection.items.alignment import Alignment
 from collection.items.work import Work
+from collection.views.plain_text import PlainTextView
 from enum import Enum
 import os
 
@@ -67,7 +68,8 @@ def get_serializer(item_id):
     for view,body in item_views_map.items():
         item_ids = body.keys()
         if item_id in item_ids:
-            return view()
+            obj = view()
+            return obj.serializer
         
 
 def generate_view(op_item_id: str,output_dir: Path = None):
@@ -79,10 +81,9 @@ def generate_view(op_item_id: str,output_dir: Path = None):
     item = get_item_cls(op_item_id)
     item_obj = item(**item_attr)
 
-    serializer = get_serializer(op_item_id)
+    #serializer = get_serializer(op_item_id)
+    serializer = PlainTextView()
     serializer.serialize(item=item_obj,output_dir=Path("./data"))
 
 if __name__ == "__main__":
-    print(os.getcwd())
-    print(os.listdir(os.getcwd()))
     generate_view("I3D4F1804",Path("./data"))
