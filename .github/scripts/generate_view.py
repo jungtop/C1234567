@@ -58,11 +58,8 @@ def get_item_cls(item_id):
 
 
 def get_collection_meta(collection_id):
-    #meta_path = Path(f"{collection_id}.opc/meta.yml")
-    #meta = load_yaml(meta_path)
-    meta = {
-        "item_views_map":{"plaintext":{"I3D4F1804":["I3D4F1804_I3CN3916.txt"]}}
-    }
+    meta_path = Path(f"{collection_id}.opc/meta.yml")
+    meta = load_yaml(meta_path)
     return meta
         
 

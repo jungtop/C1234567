@@ -80,8 +80,7 @@ def get_view_class(view_name:str):
 def update_view(issue_message,token)->None:
     global collection_id
     pecha_ids = extract_pecha_ids(issue_message)
-    #collection_id = os.getenv("REPO_NAME")
-    collection_id = "1234"
+    collection_id = os.getenv("REPO_NAME")
     
     for pecha_id in pecha_ids:
         view_types = get_view_types(pecha_id)
