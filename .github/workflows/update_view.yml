@@ -27,9 +27,9 @@ jobs:
         python3 -m venv .env
         source .env/bin/activate
         pip install git+https://github.com/OpenPecha/Collection.git@create-meta
+        source .env/bin/activate
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
     - name : Run update_view
       run : |
-        source .env/bin/activate
-        echo ${{ github.event.issue.body }}
-        echo ${{ secrets.mytoken }}
         python3 ./.github/scripts/update_view.py ${{ github.event.issue.body }} ${{ secrets.mytoken }}
