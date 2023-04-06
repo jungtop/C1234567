@@ -90,7 +90,7 @@ def generate_view(op_item_id: str,output_dir: Path = None):
     item_obj = item(**item_attr)
 
     serializer = get_serializer(op_item_id)
-    serializer.serialize(item=item_obj,output_dir=Path("./data"))
+    serializer().serialize(item=item_obj,output_dir=Path("./data"))
 
 if __name__ == "__main__":
     generate_view("I3D4F1804",Path("./data"))
