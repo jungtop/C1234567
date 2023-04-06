@@ -74,8 +74,9 @@ def get_serializer(item_id):
         item_ids = body.keys()
         if item_id in item_ids:
             view_name = view_mapping[view]
-            obj = globals()[view_name]
-            return obj().serializer
+            view_class = globals()[view_name]
+            view_obj = view_class()
+            return view_obj.serializer
         
 
 def generate_view(op_item_id: str,output_dir: Path = None):
