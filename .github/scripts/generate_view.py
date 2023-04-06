@@ -19,6 +19,11 @@ class ItemEnum():
     work = Work
     pecha_fragment = PechaFragment
 
+view_mapping = {
+    "plaintext": "PlainTextView",
+    "hfml": "HFMLView"
+}
+
 OPENPECHA_DATA_PREFIX_URL = "https://github.com/OpenPecha-Data"
 
 def get_op_item_meta(item_id, item_path):
@@ -68,8 +73,9 @@ def get_serializer(item_id):
     for view,body in item_views_map.items():
         item_ids = body.keys()
         if item_id in item_ids:
-            obj = globals()[view]
-            return obj.serializer
+            view_name = view_mapping[view]
+            obj = globals()[view_name]
+            return obj().serializer
         
 
 def generate_view(op_item_id: str,output_dir: Path = None):
