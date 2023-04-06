@@ -88,7 +88,7 @@ def update_view(issue_message,token)->None:
             view = get_view_class(view_type)
             views_path = generate_view(pecha_id,view())
             print("Views Created")
-            print(type(view[0]))
+            print(type(views_path[0]))
             if views_path:
                 push_views(pecha_id,views_path,view_type,token)
 
